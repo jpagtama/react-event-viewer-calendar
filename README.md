@@ -30,4 +30,4 @@ const events = [
 
 ## License
 
-MIT
+[MIT](https://raw.githubusercontent.com/jpagtama/react-event-viewer-calendar/master/license)
