@@ -1,18 +1,18 @@
-# eventscalendar
+# react-event-viewer-calendar
 
 Display your events in this simple, easy-to-use calendar events-viewer for React.
 
 ## Installation
 
-* Install eventscalendar with npm
+* Install react-event-viewer-calendar with npm
 
 ```cli
-  npm install eventscalendar
+  npm install react-event-viewer-calendar
 ```
 ## Usage
 
 ```js
-import Calendar from 'eventscalendar'
+import Calendar from 'react-event-viewer-calendar'
 
 const events = [
     {date: new Date('2023/04/04'), events: ['Bob\'s Birthday', 'Pay bills'] },
