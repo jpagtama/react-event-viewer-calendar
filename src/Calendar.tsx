@@ -21,8 +21,8 @@ interface Props {
         event: string[]
     }[],
     styles?: {
-        calendar?: { border?: boolean, borderColor?: string }
-        header?: { background?: string, fontColor?: string },
+        calendar?: { border?: boolean, borderColor?: string, size?: string }
+        header?: { background?: string, fontColor?: string, fontFamily?: string },
         dates?: { background?: string, border?: boolean, borderColor?: string, numberColor?: string, todayBadgeColor?: string, todayNumberColor?: string, outsideMonth?: { background?: string, fontColor?: string } },
         events?: { background?: string, fontColor?: string },
     }
@@ -85,6 +85,10 @@ const Calendar = ({ month, year, events, styles: propStyles, clickHandler }: Pro
     const prevMonth = new Date(`${month - 1 > 0 ? year : year - 1}/${month - 1 > 0 ? month - 1 : 12}/01`) // returns the date of previous month
     const prevMonthLastDay = new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 0).getDate() // returns some int from 1-31
 
+    let calendarSize = '820px'
+    if (propStyles?.calendar?.size === 's') calendarSize = '390px'
+    if (propStyles?.calendar?.size === 'm') calendarSize = '575px'
+
     // Get only events within the current month and year
     let currentEvents: { [key: string]: string[] } = {} // store the events with day number as key and events [] as the value
     if (events !== undefined && events?.length > 0) {
@@ -119,7 +123,20 @@ const Calendar = ({ month, year, events, styles: propStyles, clickHandler }: Pro
     }
 
     const renderMonthTitle = (month: string, year: string) => {
-        return <h1 className={styles.monthTitle}>{month} <span className={styles.year}>{year}</span></h1>
+        return (
+            <p className={styles.monthTitle} style={{
+                fontFamily: propStyles?.header?.fontFamily || 'Segoe UI, Roboto, sans-serif',
+                color: propStyles?.header?.fontColor || 'black'
+            }}>
+                {month}
+                <span className={styles.year} style={{
+                    fontFamily: propStyles?.header?.fontFamily || 'Segoe UI, Roboto, sans-serif',
+                    color: propStyles?.header?.fontColor || 'black'
+                }}>
+                    {year}
+                </span>
+            </p>
+        )
     }
 
     const renderWeekHeader = () => {
@@ -225,9 +242,10 @@ const Calendar = ({ month, year, events, styles: propStyles, clickHandler }: Pro
     return (
         <div className={styles.container} style={{
             border: propStyles?.calendar?.border === false ? 'none' : `1px solid ${propStyles?.calendar?.borderColor || 'black'}`,
+            maxWidth: calendarSize
         }}>
             <div className={styles.calendarHeader} style={{
-                backgroundColor: propStyles?.header?.background,
+                backgroundColor: propStyles?.header?.background || '#428bca',
                 color: propStyles?.header?.fontColor || 'black'
             }}>
                 {renderMonthTitle(monthName, year.toString())}
