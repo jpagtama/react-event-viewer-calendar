@@ -176,7 +176,5 @@ describe('Calendar.tsx', () => {
             expect(returnedValue.events[0]).toBe('Apple was founded')
             expect(returnedValue.date).toBe('1976/4/1')
         }
-
     })
-
 })
