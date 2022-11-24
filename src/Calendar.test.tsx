@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import Calendar from './Calendar'
 
@@ -43,10 +44,17 @@ describe('Calendar.tsx', () => {
     ]
 
     test('renders the default calendar', () => {
-        render(<Calendar />)
+        const { container } = render(<Calendar />)
 
         const calendarElement = screen.getByText(monthNames[today.getMonth()])
+        const calendarYear = screen.getByText(today.getFullYear())
+        const calendarHeader = container.getElementsByClassName('calendarHeader')
+
+        expect(calendarHeader[0]).toHaveStyle('background: #428bca')
         expect(calendarElement).toBeInTheDocument()
+        expect(calendarYear).toBeInTheDocument()
+        expect(calendarElement).toHaveStyle('font-family: Segoe UI, Roboto, sans-serif')
+        expect(calendarElement).toHaveStyle('color: black')
     })
 
     test('renders the calendar with only a month passed in', () => {
@@ -135,6 +143,40 @@ describe('Calendar.tsx', () => {
         const element = container.getElementsByClassName('calendarHeader')
         expect(element[0]).toHaveStyle('background: red')
         expect(element[0]).toHaveStyle('color: white')
+    })
+
+    test('renders the calendar with user input header setting of fontFamily set to Times New Roman', () => {
+        const styles = { header: { fontFamily: 'Times New Roman' } }
+        const { container } = render(<Calendar styles={styles} />)
+        const title = container.getElementsByClassName('monthTitle')
+        const year = container.getElementsByClassName('year')
+        expect(title[0]).toHaveStyle('font-family: Times New Roman')
+        expect(year[0]).toHaveStyle('font-family: Times New Roman')
+    })
+
+    test('renders returned events and date when clickhandler passed in', async () => {
+        let returnedValue: { events: string[] | undefined, date: string | undefined } = { events: [], date: undefined }
+        const clickHandler = (events?: string[], date?: string) => {
+            returnedValue = { events, date }
+        }
+
+        const { container: calendarNoEvents } = render(<Calendar clickHandler={clickHandler} />)
+        const dayTiles1 = calendarNoEvents.getElementsByClassName('dayContainer')
+        await userEvent.click(dayTiles1[today.getDate() - 1]) // Click on the current month's date number
+        console.log('returnedValue testing default :>> ', returnedValue);
+        expect(returnedValue.events).toEqual([])
+        expect(returnedValue.date).toBe(`${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`)
+
+        const { container: calendarWithEvents } = render(<Calendar clickHandler={clickHandler} month={4} year={1976} events={events} />)
+        const dayTiles2 = calendarWithEvents.getElementsByClassName('dayContainer')
+
+        await userEvent.click(dayTiles2[0]) // Click on April 1, 1976
+
+        if (returnedValue.events) {
+            expect(returnedValue.events[0]).toBe('Apple was founded')
+            expect(returnedValue.date).toBe('1976/4/1')
+        }
+
     })
 
 })
