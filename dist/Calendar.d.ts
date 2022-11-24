@@ -11,10 +11,12 @@ interface Props {
         calendar?: {
             border?: boolean;
             borderColor?: string;
+            size?: string;
         };
         header?: {
             background?: string;
             fontColor?: string;
+            fontFamily?: string;
         };
         dates?: {
             background?: string;
