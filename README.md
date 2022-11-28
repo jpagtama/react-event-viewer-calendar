@@ -21,9 +21,11 @@ const events = [
     {date: new Date('2050/7/21'), events: ['Concert'] },
 ]
 
+// Will display the month for the earliest event
 <Calendar events={events} />
 
-// Will display the month for the earliest event
+// <Calendar month={4} year={2030} /> Displays the desired month/year 
+// <Calendar clickHandler={customHandler} /> Allows developers to extract the events and date for the clicked day tile. 
 
 ```
 
