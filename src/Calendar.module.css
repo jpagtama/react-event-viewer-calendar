@@ -79,6 +79,7 @@
     margin-right: 0.5em;
     margin-bottom: 0.5em;
     white-space: wrap;
+    overflow-x: hidden;
 }
 
 .mobileViewDay {
