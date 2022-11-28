@@ -1,6 +1,6 @@
 {
   "name": "react-event-viewer-calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Display your events in this simple, easy-to-use calendar events-viewer for React.",
   "main": "dist/index",
   "typings": "dist/index",
